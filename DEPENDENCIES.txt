@@ -1,0 +1,6 @@
+In order to correctly run this application the following dependencies must be satisfied:
+
+* pycore: https://github.com/bncc/pycore
+* tweepy: https://github.com/tweepy/tweepy
+* facebookpy / facebook-sdk (still working on several issues)
+
