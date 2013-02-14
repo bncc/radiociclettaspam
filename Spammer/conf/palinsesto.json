@@ -1,0 +1,57 @@
+{
+"Palinsesto":
+[
+	{"Mon":	[
+        	{"0" : [ { "0": [ {"title": "L'Ultima Mezzora"}, {"author": "Luca"}, {"theme": "Musica e cazzate"}]}]},
+                {"17" : [	{ "0" : [ {"title": "Tarocco"}, {"author": "Ma Funzionante"}, {"theme": "viva l'olio d'oliva"}]},
+				{ "30" : [ {"title": "Eclettica"}, {"author": "Tizio Eclettico"}, {"theme": "Cazzate"}]}
+			]},
+                {"18" : [ { "30" : [ {"title": "Mai Dire Cicletta"}, {"author": "il Poco Radiofonico Michele"}, {"theme": "Sport"}]}]},
+                {"20" : [ { "0" : [ {"title": "Music Busters"}, {"author": "Vittorio e Gabriele"}, {"theme": "Live (unknown) music"}]}]},
+                {"21" : [ { "0" : [ {"title": "TRENINTRANSITO"}, {"author": "Michele"}, {"theme": "Musica a tema"}]}]},
+                {"22" : [ { "0" : [ {"title": "PLUG"}, {"author": "boh!"}, {"theme": "ehm..."}]}]},
+                {"23" : [ { "0" : [ {"title": "I politicazzi"}, {"author": "Marco e Mario"}, {"theme": "(tante) cazzate"}]}]}
+        	]
+    	},
+	{"Tue":	[
+                {"0" : [ { "0" : [ {"title": "L'Ultima Mezzora"}, {"author": "Vittorio"}, {"theme": "Musica da sonno"}]}]},
+                {"1" : [ { "0" : [ {"title": "Laika"}, {"author": "Giulia ed Ester "}, {"theme": "boh, è troppo tardi"}]}]},
+                {"18" : [ { "0" : [ {"title": "Clandestino"}, {"author": "Un clandestino"}, {"theme": "spaccio internazionale"}]}]},
+                {"19" : [ { "0" : [ {"title": "Q&A - Question and Answers"}, {"author": "Seba"}, {"theme": "domande e cazzate"}]}]},
+                {"20" : [ { "0" : [ {"title": "Zuppa Latina"}, {"author": "Gordon Ramsey"}, {"theme": "Cucina Mediterranea"}]}]},
+                {"21" : [ { "0" : [ {"title": "Metalheads"}, {"author": "Turbato e l'amico suo"}, {"theme": "metal"}]}]},
+                {"22" : [ { "0" : [ {"title": "Il triciclo"}, {"author": "ehm..."}, {"theme": "competizioni ciclistiche"}]}]},
+                {"23" : [	{ "0" : [ {"title": "Scrapjazz"}, {"author": "Lorenzo e l'amico suo"}, {"theme": "jazz"}]},
+				{ "30" : [ {"title": "altro fake"}, {"author": "Jimbows"}, {"theme": "none"}]}
+			]}
+    		]
+	},
+	{"Wed":	[
+		{"0" : [ { "0" : [ {"title": "L'Ultima Mezzora"}, {"author": "Vittorio"}, {"theme": "Musica da sonno"}]}]}
+		]
+	},
+	{"Thu":	[
+		{"12" : [ { "06" : [ {"title": "prova"}, {"author": "canedeva"}, {"theme": "tryyyyy"}]},
+			      { "07" : [ {"title": "ri_prova"}, {"author": "canedadamo"}, {"theme": "Una puntata sul NULLA"}]},
+			      { "08" : [ {"title": "ri_prova"}, {"author": "canedadamo"}, {"theme": "Una puntata sul NULLA"}]},
+			      { "09" : [ {"title": "ri_prova"}, {"author": "canedadamo"}, {"theme": "Una puntata sul NULLA"}]},
+			      { "10" : [ {"title": "ri_prova"}, {"author": "canedadamo"}, {"theme": "Una puntata sul NULLA"}]},
+			      { "11" : [ {"title": "ri_prova"}, {"author": "canedadamo"}, {"theme": "Una puntata sul NULLA"}]},
+			      { "12" : [ {"title": "ri_prova"}, {"author": "canedadamo"}, {"theme": "Una puntata sul NULLA"}]}
+		]}
+		]
+	},
+	{"Fri":	[
+		{"0" : [ { "0" : [ {"title": "L'Ultima Mezzora"}, {"author": "Vittorio"}, {"theme": "Musica da sonno"}]}]}
+		]
+	},
+	{"Sat":	[
+		{"0" : [ { "0" : [ {"title": "L'Ultima Mezzora"}, {"author": "Vittorio"}, {"theme": "Musica da sonno"}]}]}
+		]
+	},
+	{"Sun":	[
+		{"0" : [ { "0" : [ {"title": "L'Ultima Mezzora"}, {"author": "Vittorio"}, {"theme": "Musica da sonno"}]}]}
+		]
+	}
+]
+}
