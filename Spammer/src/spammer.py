@@ -6,7 +6,24 @@ import logger
 import palim_reader
 import json_handler
 import twitter_spammer as twits
-# import facebook_spammer as fcbks
+# import facebook_spammer as fcbk
+
+# Todo: add a methon to simply spam stuff around
+
+def spam( spam_line = None, spam_url = None, day = None, hour = None, minute = None ):
+    
+    if( spam_line == None ): 
+        spam_line = create_spam_line(day, hour, minute)
+        if( not spam_line ):
+            logger.err("no spam to do now!", -1)
+            return None
+
+    twit_spam = twits.twitter_spammer( spam_url )
+    twit_spam.social_spam( spam_line )
+    
+#    fcbk_spam = twits.twitter_spammer( spam_url )
+#    fcbk_spam.social_spam( spam_line )
+
 
 ''' If you pass a line or a line and a url it spams that. if you don't pass anything it checks for possible spam on palim '''
 def spam_now( spam_line = None, spam_url = None ):
@@ -17,20 +34,7 @@ def spam_now( spam_line = None, spam_url = None ):
     
     if( spam_url = None ): spam_url = "http://www.radiocicletta.it"
     
-    spam( day, hour, minute, spam_line, spam_url )
-
-
-def spam( day, hour, minute, spam_line = None, spam_url = None ):
-    
-    if( spam_line == None ): 
-        spam_line = create_spam_line(day, hour, minute)
-        if( not spam_line ):
-            logger.err("no spam to do now!", -1)
-            return None
-
-    twits.tweet( spam_line, spam_url )
-#    fcbks.publish( spam_line, spam_url )
-
+    spam( spam_line, spam_url, day, hour, minute )
 
 def create_spam_line(day, hour, minute):
 
@@ -58,3 +62,4 @@ def create_spam_line(day, hour, minute):
     logger.log("Spam Line created: " + spam_line)
 
     return spam_line
+    
