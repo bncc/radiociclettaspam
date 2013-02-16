@@ -1,0 +1,24 @@
+{
+"notifications":
+[
+	{	
+		"day"      : "8",
+		"month"    : "2",
+		"year"     : "2013",
+		"warnings" : [ {"hour":"11", "minute":"15"}, {"hour":"16", "minute":"25"}, {"hour":"20", "minute":"10"}],
+		"spam"     : "Oggi alle 10:30 tizio e cajo intervisteranno gli e-sticazzi, band elettro-acustica da Gavirate",
+		"author"   : "tizio e cajo",
+		"web"      : "www.sticazzi.com"
+		"platform" : [ "twitter", "facebook", "MySpace" ]
+	},
+	{	
+		"day"      : "10",
+		"month"    : "3",
+		"year"     : "2013",
+		"warnings" : [ {"hour":"11", "minute":"15"}, {"hour":"16", "minute":"25"}, {"hour":"20", "minute":"10"} ],
+		"spam"     : "Alla festa di RadioCicletta, lo sballo ti aspetta!",
+		"author"   : "RadioCicletta staff",
+		"web"      : "www.radiocicletta.it"
+	}
+]
+}

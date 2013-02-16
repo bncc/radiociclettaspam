@@ -4,13 +4,17 @@ import file_handler
 import json_handler
 import logger
 
+# TODO Json handler is now an object.
 def read_by_day( day_of_week ):
     
     logger.log("searching for day " + day_of_week)
 
     # TODO recuperare dati da config...
     palim_path = "../conf/palinsesto.json"
-    palim_obj = json_handler.from_file(palim_path)
+    json_han = json_handler.json_handler(palim_path)
+    
+    # palim_obj = json_handler.from_file(palim_path)
+
     
     if(palim_obj == None):
         logger.log("Error in loading json from file " + file_name, -1)
@@ -20,10 +24,10 @@ def read_by_day( day_of_week ):
         palim_week = palim_obj["Palinsesto"]
         
     except TypeError:
-        logger.log("Error in retrieving day " + day_of_week + " from " + str(json_handler.to_string(palim_week)) )
+        logger.err("Error in retrieving day " + day_of_week + " from " + str(json_han.to_string(palim_week)), result.NOT_FOUND )
         return None
 
-    day_data = json_handler.array_search(palim_week, day_of_week)
+    day_data = json_han.array_search(palim_week, day_of_week)
     
     if day_data == None :
         logger.log("Day "  + str(day_of_week) + " not found", -1)
@@ -41,7 +45,7 @@ def read_by_hour( day_of_week, hour ):
         logger.log("Error in loading day "+ day_of_week + " from json")
         return None
     
-    hour_data = json_handler.array_search(palim_day, hour)
+    hour_data = json_hand.array_search(palim_day, hour)
     
     if hour_data == None :
         logger.log( "Hour " + str(hour) + " not found on " + str(day_of_week), -1)
@@ -59,7 +63,7 @@ def read( day_of_week, hour, minute ):
         logger.log("Error in loading day "+ day_of_week + " from json")
         return None
 
-    program_data = json_handler.array_search(palim_hour, minute)
+    program_data = json_han.array_search(palim_hour, minute)
     
     if program_data == None :
         logger.log("Program not found on "  + str(day_of_week) + " at " + str(hour) + ":" + str(minute), -1)
