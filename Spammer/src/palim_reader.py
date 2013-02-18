@@ -1,74 +1,121 @@
-import pycore
+import json
+import util
 
-import file_handler
-import json_handler
-import logger
+class palim_reader:
 
-# TODO Json handler is now an object.
-def read_by_day( day_of_week ):
-    
-    logger.log("searching for day " + day_of_week)
+    __pal_json = None
 
-    # TODO recuperare dati da config...
-    palim_path = "../conf/palinsesto.json"
-    json_han = json_handler.json_handler(palim_path)
-    
-    # palim_obj = json_handler.from_file(palim_path)
-
-    
-    if(palim_obj == None):
-        logger.log("Error in loading json from file " + file_name, -1)
-        return None
+    def __init__(self, pal_json):
+        self.__pal_json = pal_json
         
-    try:
-        palim_week = palim_obj["Palinsesto"]
+
+    def read( self, day_of_week, hour, minute ):
+
+        palim_hour = self.read_by_hour( day_of_week, hour )
+        if(palim_hour == None):
+            # logger.log("Error in loading day "+ day_of_week + " from json")
+            return None
+
+        minute_data = palim_hour[minute]
         
-    except TypeError:
-        logger.err("Error in retrieving day " + day_of_week + " from " + str(json_han.to_string(palim_week)), result.NOT_FOUND )
-        return None
+        if minute_data == None :
+            return
+            # logger.log("Program not found on "  + str(day_of_week) + " at " + str(hour) + ":" + str(minute), -1)
 
-    day_data = json_han.array_search(palim_week, day_of_week)
+        pal_obj = palimpsest_obj(day_of_week, hour, minute)
+
+        pal_obj.from_json(minute_data)
+
+        return pal_obj
+
+    def read_by_hour( self, day_of_week, hour ):
     
-    if day_data == None :
-        logger.log("Day "  + str(day_of_week) + " not found", -1)
-    else:
-        logger.log("Day " + str(day_of_week) + " found", 0)
+        palim_day = self.read_by_day(day_of_week)
+        if(palim_day == None):
+            # TODO log here
+            return None
+        
+        hour_data = palim_day[hour]
+        
+        if hour_data == None :
+            # logger.log( "Hour " + str(hour) + " not found on " + str(day_of_week), -1)
+            return
+        
+        return hour_data
 
-    return day_data
+    def read_by_day( self, day_of_week ):
+        
+        try:
+            palim_week = self.__pal_json["Palinsesto"]
+        except:
+            # TODO Log Here
+            return None
+        
+        day_data = palim_week[day_of_week]
+        if day_data == None :
+            # TODO log here
+            return
+
+        return day_data
 
 
-def read_by_hour( day_of_week, hour ):
-    
-    palim_day = read_by_day(day_of_week)
-    
-    if(palim_day == None):
-        logger.log("Error in loading day "+ day_of_week + " from json")
-        return None
-    
-    hour_data = json_hand.array_search(palim_day, hour)
-    
-    if hour_data == None :
-        logger.log( "Hour " + str(hour) + " not found on " + str(day_of_week), -1)
-    else:
-        logger.log( "Hour " + str(hour) + " found on " + str(day_of_week), 0)
+class palimpsest_obj:
 
-    return hour_data
+    day     = None
+    hour    = None
+    minute  = None
+    title   = None
+    author  = None
+    url     = None
+    theme   = None
+
+    def __init__( self, day, hour, minute ):
+        
+        self.day    = day
+        self.hour   = hour
+        self.minute = minute
+        
+        
+    def from_string( self, program_data_str ):
+        
+        try:
+            program_data = json.loads(program_data_str)
+        except:
+            return
+
+        self.from_json( program_data )
+        
+        
+    def from_json( self, program_data ):
+
+        try: self.title = program_data["title"]
+        except KeyError: return
+        
+        try: self.author = program_data["author"]
+        except KeyError: return
+
+        try: self.url = program_data["url"]
+        except KeyError: self.url = "www.radiocicletta.it"
+
+        try: self.theme = program_data["theme"]
+        except KeyError: return
 
 
-def read( day_of_week, hour, minute ):
+    def to_string(self):
+        # TODO logger
+        
+        result  = self.day     + " - "
+        result += self.hour    + ":" 
+        result += self.minute  + " "
+        result += self.title   + " with "
+        result += self.author  + ": "
+        result += self.theme   + " on "
+        result += self.url
+        
+        print result
 
-    palim_hour = read_by_hour( day_of_week, hour )
+        return result
 
-    if(palim_hour == None):
-        logger.log("Error in loading day "+ day_of_week + " from json")
-        return None
-
-    program_data = json_han.array_search(palim_hour, minute)
-    
-    if program_data == None :
-        logger.log("Program not found on "  + str(day_of_week) + " at " + str(hour) + ":" + str(minute), -1)
-    else:
-        logger.log("Found data for program on " + str(day_of_week) + " at " + str(hour) + ":" + str(minute) + "\n" + str(program_data), 0)
-
-    return program_data
-
+    # TODO someday
+    def to_json(self):
+        pass

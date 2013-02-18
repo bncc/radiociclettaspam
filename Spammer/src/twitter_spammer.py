@@ -1,6 +1,5 @@
 import sys
-import logger
-import conf_handler
+import util
 
 from social_spammer import social_spammer
 

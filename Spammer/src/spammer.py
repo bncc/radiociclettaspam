@@ -1,65 +1,78 @@
-import pycore
 import time
 
-import logger
-
 import palim_reader
-import json_handler
-import twitter_spammer as twits
+import util
+import json
+# import twitter_spammer as twits
 # import facebook_spammer as fcbk
 
-# Todo: add a methon to simply spam stuff around
+class spammer:
 
-def spam( spam_line = None, spam_url = None, day = None, hour = None, minute = None ):
+    __palimpsest = None
+    __conf       = None
+
+    def __init__(self):
+        
+        self.__conf = util.conf_handler("../conf/spammer.conf");
+        
+        pal_file_path = util.fs_handler( self.__conf.get_conf_value("palimpsest_path") )
+        
+        pal_file = util.fs_handler(pal_file_path)
+
+        self.__palimpsest = json.loads( pal_file.to_string() )
+
+
+    def spam( spam_line = None, spam_url = None, day = None, hour = None, minute = None ):
     
-    if( spam_line == None ): 
-        spam_line = create_spam_line(day, hour, minute)
-        if( not spam_line ):
-            logger.err("no spam to do now!", -1)
-            return None
+        if( spam_line == None ): 
+            program_obj = self.get_on_air_program(day, hour, minute)
+            if not program_obj :
+                # logger.err("no spam to do now!", -1)
+                return None
 
-    twit_spam = twits.twitter_spammer( spam_url )
-    twit_spam.social_spam( spam_line )
+            spam_line = self.create_on_air_line(program_obj.author, program_obj.title, program_obj.theme)
+
+            print "--- " + spam_line + " ---"
+
+            # twit_spam = twits.twitter_spammer( program_obj.url )
+            # twit_spam.social_spam( spam_line )
     
-#    fcbk_spam = twits.twitter_spammer( spam_url )
-#    fcbk_spam.social_spam( spam_line )
+            #    fcbk_spam = twits.twitter_spammer( spam_url )
+            #    fcbk_spam.social_spam( spam_line )
 
-
-''' If you pass a line or a line and a url it spams that. if you don't pass anything it checks for possible spam on palim '''
-def spam_now( spam_line = None, spam_url = None ):
     
-    day = time.strftime("%a")
-    hour = time.strftime("%H")
-    minute = time.strftime("%M")
+    def get_on_air_program(day, hour, minute):
+
+        pal_reader = palim_reader.palim_reader(self.__palimpsest)
+        if pal_reader == None:
+            #TODO log errore
+            return
+
+        palim_obj = pal_reader.read(day, hour, minute)
+        if palim_obj == None:
+            # TODO log che non c'e' niente da spammare
+            return
+        
+        return palim_obj
+        
+
+    def create_on_air_line(author, title, theme):
+            
+        return "Ora in onda " + str(title) + " con " + str(author) + ": " + str(theme)
+
     
-    if( spam_url = None ): spam_url = "http://www.radiocicletta.it"
+    # Le notifiche vanno ancora implementate... eccheccazzo
+    def cerate_notification_line(notif_line, notif_author = None, notif_title = None, notif_theme = None, notif_url = None):
+        pass
+        
+    def get_actual_notification(day, hour, minute):
+        pass
+
+    ''' If you pass a line or a line and a url it spams that. if you don't pass anything it checks for possible spam on palim '''
+    def spam_now( spam_line = None, spam_url = None ):
     
-    spam( spam_line, spam_url, day, hour, minute )
-
-def create_spam_line(day, hour, minute):
-
-    logger.log("checking for programs on "+ day +" "+str(hour)+":"+str(minute))
-
-    program = palim_reader.read(day, hour, minute)
-
-    if(program == None): 
-        logger.err("No program found", -1)
-        return None
-
-    title = str(json_handler.array_search(program, "title"))
-    if( title == None):
-        logger.err("No title found for program on "+ day +" "+hour+":"+minute+". Spam won't move on", -1)
-        return
-    
-    author = str(json_handler.array_search(program, "author"))
-    if( author == None): logger.err("No author found", -1)
-    
-    theme = str(json_handler.array_search(program, "theme"))
-    if( theme == None): logger.err("No theme found", -1)
-    
-    spam_line = "Ora in onda " + title + ": " + theme + " con " + author + " su "
-
-    logger.log("Spam Line created: " + spam_line)
-
-    return spam_line
-    
+        day = time.strftime("%a")
+        hour = time.strftime("%H")
+        minute = time.strftime("%M")
+        
+        spam( spam_line, spam_url, day, hour, minute )
