@@ -1,6 +1,6 @@
 import sys
 
-import pycore
+# import pycore
 
 import logger
 

@@ -21,8 +21,6 @@ class twitter_spammer (social_spammer):
                 tweet = self.__handle_tweet(tweet, url)
                 logger.log("tweet will be: " + tweet, 0)
 
-                conf_path = "twitter.conf"
-
                 conf_obj = conf_handler.conf_handler(conf_name="twitter.conf")
                 
                 consumer_key = conf_obj.read_conf("consumer_key" )
