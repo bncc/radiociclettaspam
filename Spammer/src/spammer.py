@@ -15,14 +15,12 @@ class spammer:
         
         self.__conf = util.conf_handler("../conf/spammer.conf");
         
-        pal_file_path = util.fs_handler( self.__conf.get_conf_value("palimpsest_path") )
+        pal_file = util.fs_handler( self.__conf.get_conf_value("palimpsest_path") )
         
-        pal_file = util.fs_handler(pal_file_path)
-
         self.__palimpsest = json.loads( pal_file.to_string() )
 
 
-    def spam( spam_line = None, spam_url = None, day = None, hour = None, minute = None ):
+    def spam(self, spam_line = None, spam_url = None, day = None, hour = None, minute = None ):
     
         if( spam_line == None ): 
             program_obj = self.get_on_air_program(day, hour, minute)
@@ -32,7 +30,7 @@ class spammer:
 
             spam_line = self.create_on_air_line(program_obj.author, program_obj.title, program_obj.theme)
 
-            print "--- " + spam_line + " ---"
+            # TODO log here
 
             # twit_spam = twits.twitter_spammer( program_obj.url )
             # twit_spam.social_spam( spam_line )
@@ -41,7 +39,7 @@ class spammer:
             #    fcbk_spam.social_spam( spam_line )
 
     
-    def get_on_air_program(day, hour, minute):
+    def get_on_air_program(self, day, hour, minute):
 
         pal_reader = palim_reader.palim_reader(self.__palimpsest)
         if pal_reader == None:
@@ -56,23 +54,23 @@ class spammer:
         return palim_obj
         
 
-    def create_on_air_line(author, title, theme):
+    def create_on_air_line(self, author, title, theme):
             
         return "Ora in onda " + str(title) + " con " + str(author) + ": " + str(theme)
 
     
     # Le notifiche vanno ancora implementate... eccheccazzo
-    def cerate_notification_line(notif_line, notif_author = None, notif_title = None, notif_theme = None, notif_url = None):
+    def cerate_notification_line(self, notif_line, notif_author = None, notif_title = None, notif_theme = None, notif_url = None):
         pass
         
-    def get_actual_notification(day, hour, minute):
+    def get_actual_notification(self, day, hour, minute):
         pass
 
     ''' If you pass a line or a line and a url it spams that. if you don't pass anything it checks for possible spam on palim '''
-    def spam_now( spam_line = None, spam_url = None ):
+    def spam_now( self, spam_line = None, spam_url = None ):
     
         day = time.strftime("%a")
         hour = time.strftime("%H")
         minute = time.strftime("%M")
         
-        spam( spam_line, spam_url, day, hour, minute )
+        self.spam( spam_line, spam_url, day, hour, minute )

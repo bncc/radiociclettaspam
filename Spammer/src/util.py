@@ -13,12 +13,15 @@ class conf_handler:
             self.__path = conf_path
 
         file_han = fs_handler(self.__path)
-        if file_han == None : return
-
+        if file_han == None :
+            return
+ 
         conf_str = file_han.to_string()
+
         try:
             self.__conf = json.loads(conf_str)
         except:
+            # TODO log
             return
 
     def get_conf_value(self, key):
@@ -28,17 +31,30 @@ class conf_handler:
             return None
 
 
+
 class fs_handler:
 
     __file = None
 
     def __init__( self, file_path ): 
-       try:
-           self.__file = open( file_path )
-       except:
-           return
+        
+        try:
+            self.__file = open( file_path )
+        except:
+            return
+       
+    def __del__(self):
+        
+        try:
+            self.__file.close()
+        except:
+            return
        
     def to_string( self ):
+
+        if not self.__file : 
+            return
+
         try:
             file_str = self.__file.read()
         except IOError:
