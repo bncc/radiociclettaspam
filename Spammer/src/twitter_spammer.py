@@ -1,5 +1,6 @@
 import sys
 import util
+import logging
 
 from social_spammer import social_spammer
 
@@ -7,38 +8,42 @@ import tweepy
 
 class twitter_spammer (social_spammer):
         
-        __url = "http://www.radiocicletta.it"
+        __logger_handler = None
 
-        def __init__(self, url):
-                if(url != None):
-                        self.__url = url
+        def __init__(self, url = None):
+                social_spammer.__init__(self, url)
+                self.__logger_handler = util.log_handler(debug_level = logging.DEBUG)
 
-        def social_spam(self, tweet):
-                return self.__tweet(tweet, self.__url)
+        def social_spam(self, tweet, url):
+                return self.__tweet(tweet, url)
         
         def __tweet( self, tweet, url = None ):
                 
-                tweet = self.__handle_tweet(tweet, url)
-                logger.log("tweet will be: " + tweet, 0)
+                if not url : url = self._url
 
-                conf_obj = conf_handler.conf_handler(conf_name="twitter.conf")
+                logh = self.__logger_handler
+
+                tweet = self.__handle_tweet(tweet, url)
+                logh.logger.debug( util.create_msg("tweet will be: " + tweet) )
+
+                conf_obj = util.conf_handler("../conf/twitter.conf")
                 
-                consumer_key = conf_obj.read_conf("consumer_key" )
+                consumer_key = conf_obj.get_conf_value("consumer_key" )
                 if ( consumer_key == None ): 
-                        logger.log("Unable to retrieve consumer_key", -1)
+                        logh.logger.error( util.create_message("Unable to retrieve consumer_key") )
                         return None
-                consumer_secret = conf_obj.read_conf("consumer_secret" )
+                consumer_secret = conf_obj.get_conf_value("consumer_secret" )
                 if ( consumer_secret == None ): 
-                        logger.log("Unable to retrieve consumer_secret", -1)
+                        logh.logger.error( util.create_message("Unable to retrieve consumer_secret") )
                         return None
                 
-                access_token = conf_obj.read_conf("access_token" )
+                access_token = conf_obj.get_conf_value("access_token" )
                 if ( access_token == None ):
-                        logger.log("Unable to retrieve access_secret", -1)
+                        logh.logger.error( util.create_message("Unable to retrieve access_secret") )
                         return None
-                access_secret = conf_obj.read_conf("access_secret" )
+                access_secret = conf_obj.get_conf_value("access_secret" )
                 if ( access_secret == None ): 
-                        logger.log("Unable to retrieve access_secret", -1)
+                        logh.logger.error( util.create_message("Unable to retrieve access_secret") )
                         return None
                 
                 # Errors must be handled here and then
@@ -50,6 +55,7 @@ class twitter_spammer (social_spammer):
                 
                 # api.update_status(tweet)
                 
+                return tweet
 
         def __handle_tweet( self, tweet, url):
                         
@@ -61,6 +67,7 @@ class twitter_spammer (social_spammer):
                         url = ""
                         
                 if ( len(tweet) < max_len ):
+                        
                         return tweet + url
                 else:
                         return tweet[:max_len] + url
