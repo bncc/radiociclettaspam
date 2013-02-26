@@ -21,38 +21,39 @@ class twitter_spammer (social_spammer):
                 
                 if not url : url = self._url
 
-                logh = self.__logger_handler
+                logh = self.__logger_handler.logger
 
                 tweet = self.__handle_tweet(tweet, url)
-                logh.logger.debug( util.create_msg("tweet will be: " + tweet) )
+                logh.debug( util.create_msg("tweet will be: " + tweet) )
 
                 conf_obj = util.conf_handler("../conf/twitter.conf")
                 
                 consumer_key = conf_obj.get_conf_value("consumer_key" )
                 if ( consumer_key == None ): 
-                        logh.logger.error( util.create_message("Unable to retrieve consumer_key") )
+                        logh.error( util.create_message("Unable to retrieve consumer_key") )
                         return None
                 consumer_secret = conf_obj.get_conf_value("consumer_secret" )
                 if ( consumer_secret == None ): 
-                        logh.logger.error( util.create_message("Unable to retrieve consumer_secret") )
+                        logh.error( util.create_message("Unable to retrieve consumer_secret") )
                         return None
                 
                 access_token = conf_obj.get_conf_value("access_token" )
                 if ( access_token == None ):
-                        logh.logger.error( util.create_message("Unable to retrieve access_secret") )
+                        logh.error( util.create_message("Unable to retrieve access_secret") )
                         return None
                 access_secret = conf_obj.get_conf_value("access_secret" )
                 if ( access_secret == None ): 
-                        logh.logger.error( util.create_message("Unable to retrieve access_secret") )
+                        logh.error( util.create_message("Unable to retrieve access_secret") )
                         return None
                 
                 # Errors must be handled here and then
-                
+                logh.debug( util.create_message("logging on twitter through OAuth") )
+
                 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
                 auth.set_access_token(access_token, access_secret)
-                
                 api = tweepy.API(auth)
                 
+		logh.debug( util.create_message("twitting: " + tweet) )
                 # api.update_status(tweet)
                 
                 return tweet

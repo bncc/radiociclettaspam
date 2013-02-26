@@ -1,15 +1,18 @@
 import time
-
-# import pycore
-
-import logger
+import util
+import logging
 
 import spammer
 
+
+log_handler = util.log_handler(debug_level = logging.DEBUG)
+
 while(True):
 
-    logger.log("try to spam something now... ", 0, False)
+    log_handler.logger.debug( util.create_msg("Time to log!") )
 
-    spammer.spam_now()
+    spam = spammer.spammer()
+
+    spam.spam_now()
 
     time.sleep(60)
