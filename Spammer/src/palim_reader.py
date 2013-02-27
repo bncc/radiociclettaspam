@@ -44,13 +44,15 @@ class palim_reader:
         if(palim_day == None):
             return None
         
+        hour_data = None
+
         try:
             hour_data = palim_day[hour]
         except KeyError:
             pass
         
         if hour_data == None :
-            self.__lgr.logger.warning( util.create_msg( "Hour " + str(hour) + " not found on " + str(day_of_week), -1) )
+            self.__lgr.logger.warning( util.create_msg( "Hour " + str(hour) + " not found on " + str(day_of_week) ) )
             return
         
         return hour_data
