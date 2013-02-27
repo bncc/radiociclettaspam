@@ -19,6 +19,7 @@ def create_msg( message ):
     
     return str(filename)+","+str(line)+" "+str(message)
 
+
 class log_handler:
     
     logger = None
@@ -39,12 +40,9 @@ class log_handler:
 
         if not log_path :
             log_path = conf.get_conf_value("log_file_path")
-            print log_path
             if not log_path :
                 log_path = "/tmp/spammer.log"
         
-        print log_path
-
         max_bytes = conf.get_conf_value("max_log_file_size")
         if not max_bytes :
             max_bytes = "1000000"
